@@ -11,6 +11,13 @@ O Cerberus AI utiliza uma abordagem baseada em **múltiplos LLMs trabalhando em 
 
 Essas respostas são coletadas e utilizadas tanto para **análise comparativa** quanto como **base de dados para o treinamento de um modelo adicional**, cujo objetivo é aprender com os padrões e estratégias produzidos pelos modelos originais.
 
+```md
+### Requisitos
+
+- Python 3.10 ou superior
+- pip atualizado
+pip install -r requirements.txt
+
 Os modelos utilizados não são permanentes. O sistema foi projetado para permitir a integração futura de:
 
 - Novos modelos mais avançados
@@ -92,11 +99,6 @@ Este projeto destina-se exclusivamente a fins educacionais e de pesquisa em segu
 
 O uso das informações ou ferramentas geradas para atividades ilegais é de responsabilidade exclusiva do usuário.
 
-```md
-### Requisitos
 
-- Python 3.10 ou superior
-- pip atualizado
-pip install -r requirements.txt
 
 
