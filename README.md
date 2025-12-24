@@ -17,7 +17,7 @@ Essas respostas são coletadas e utilizadas tanto para **análise comparativa** 
 - Python 3.10 ou superior
 - pip atualizado
 pip install -r requirements.txt
-
+```
 Os modelos utilizados não são permanentes. O sistema foi projetado para permitir a integração futura de:
 
 - Novos modelos mais avançados
