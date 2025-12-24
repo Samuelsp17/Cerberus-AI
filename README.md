@@ -20,20 +20,11 @@ Os modelos utilizados não são permanentes. O sistema foi projetado para permit
 
 ---
 ## Arquitetura
-[ Requisição de Segurança ]
-              |
-      ---------------------
-      |        |         |
-   LLM A    LLM B     LLM C
-      |        |         |
-      ---------+---------
-               |
-    Coleta e Normalização
-               |
-     Dataset de Treinamento
-               |
-        Modelo Agregador
-      (em desenvolvimento)
+[ Security Request ]
+ → [ LLM Plugin 1 | LLM Plugin 2 | LLM Plugin N ]
+ → [ Orchestrator / Normalizer ]
+ → [ Dataset Builder ]
+ → [ Learner Model ] (Em desenvolvimento)
 
 
 
