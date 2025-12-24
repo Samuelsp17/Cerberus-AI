@@ -3,7 +3,7 @@ import asyncio
 import google.generativeai as genai
 from openai import AsyncOpenAI
 
-st.set_page_config(layout="wide", page_title="Tribunal de Pentesters v3")
+st.set_page_config(layout="wide", page_title="Cerberus AI v3")
 
 with st.sidebar:
     st.header("🔑 Configuração de APIs")
@@ -36,7 +36,7 @@ async def call_gemini(api_key, query):
         return f"❌ Erro Gemini: {str(e)}"
 
 # --- INTERFACE ---
-st.title("Modelo Court - Tribunal de Pentesters AI")
+st.title("Cerberus AI - Tribunal de Pentesters v3")
 query = st.text_area("Alvo/Código:", height=100)
 
 if st.button("Iniciar Análise"):
@@ -55,7 +55,7 @@ if st.button("Iniciar Análise"):
             t3 = asyncio.create_task(call_gemini(gemini_key, query))
             return await asyncio.gather(t1, t2, t3)
 
-        with st.spinner("Consultando Tribunal..."):
+        with st.spinner("Consultando LLMs..."):
             r_or, r_groq, r_gem = asyncio.run(run_all())
 
         with col1:
@@ -66,4 +66,5 @@ if st.button("Iniciar Análise"):
             st.markdown(r_groq)
         with col3:
             st.subheader("Gemini")
+
             st.markdown(r_gem)
