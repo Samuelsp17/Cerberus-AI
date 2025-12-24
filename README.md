@@ -92,5 +92,11 @@ Este projeto destina-se exclusivamente a fins educacionais e de pesquisa em segu
 
 O uso das informações ou ferramentas geradas para atividades ilegais é de responsabilidade exclusiva do usuário.
 
+```md
+### Requisitos
+
+- Python 3.10 ou superior
+- pip atualizado
+pip install -r requirements.txt
 
 
