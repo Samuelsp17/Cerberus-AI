@@ -16,7 +16,8 @@ Essas respostas são coletadas e utilizadas tanto para **análise comparativa** 
 
 - Python 3.10 ou superior
 - pip atualizado
-pip install -r requirements.txt
+$ pip install -r requirements.txt
+$ python -m streamlit run cerberusai.py
 ```
 Os modelos utilizados não são permanentes. O sistema foi projetado para permitir a integração futura de:
 
