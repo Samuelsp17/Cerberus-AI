@@ -3,7 +3,7 @@ import asyncio
 import google.generativeai as genai
 from openai import AsyncOpenAI
 
-st.set_page_config(layout="wide", page_title="Cerberus AI v3")
+st.set_page_config(layout="wide", page_title="Cerberus AI - Tribunal de Pentester v3")
 
 with st.sidebar:
     st.header("🔑 Configuração de APIs")
@@ -24,7 +24,7 @@ async def call_openai_style(client, model, query):
         )
         return resp.choices[0].message.content
     except Exception as e:
-        return f"❌ Erro: {str(e)}"
+        return f"Erro: {str(e)}"
 
 async def call_gemini(api_key, query):
     try:
@@ -33,10 +33,33 @@ async def call_gemini(api_key, query):
         response = await model.generate_content_async(query)
         return response.text
     except Exception as e:
-        return f"❌ Erro Gemini: {str(e)}"
+        return f"Erro Gemini: {str(e)}"
+    
+
+# --- FUNÇÃO UTILITÁRIA ---
+def preview_text(text, lines=3):
+    if not text:
+        return ""
+    split = text.splitlines()
+    return "\n".join(split[:lines]) + ("\n..." if len(split) > lines else "")
+def render_llm_response(text):
+    st.markdown(
+        f"""
+        <div style="
+            max-width: 100%;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        ">
+        {text}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # --- INTERFACE ---
-st.title("Cerberus AI - Tribunal de Pentesters v3")
+st.title("Cerberus AI")
 query = st.text_area("Alvo/Código:", height=100)
 
 if st.button("Iniciar Análise"):
@@ -55,16 +78,26 @@ if st.button("Iniciar Análise"):
             t3 = asyncio.create_task(call_gemini(gemini_key, query))
             return await asyncio.gather(t1, t2, t3)
 
-        with st.spinner("Consultando LLMs..."):
+        with st.spinner("Consultando Tribunal..."):
             r_or, r_groq, r_gem = asyncio.run(run_all())
 
         with col1:
             st.subheader("OpenRouter")
-            st.markdown(r_or)
+            st.markdown("**Resumo:**")
+            st.markdown(preview_text(r_or, 3))
+            with st.expander("Ver resposta completa"):
+                render_llm_response(r_or)
+        
         with col2:
             st.subheader("Groq")
-            st.markdown(r_groq)
+            st.markdown("**Resumo:**")
+            st.markdown(preview_text(r_groq, 3))
+            with st.expander("Ver resposta completa"):
+                render_llm_response(r_groq)
+        
         with col3:
             st.subheader("Gemini")
-
-            st.markdown(r_gem)
+            st.markdown("**Resumo:**")
+            st.markdown(preview_text(r_gem, 3))
+            with st.expander("Ver resposta completa"):
+                render_llm_response(r_gem)
