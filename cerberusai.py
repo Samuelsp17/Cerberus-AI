@@ -97,8 +97,10 @@ comparativo e objetivo.
     )
 
 
+
+
 # ---------------------------------------------------------------------
-# FUNÇÕES DE CHAMADA AOS MODELOS
+# CHAMADAS LLM
 # ---------------------------------------------------------------------
 async def call_openai_style(client, model, query):
     try:
@@ -110,7 +112,7 @@ async def call_openai_style(client, model, query):
             ],
             extra_headers={
                 "HTTP-Referer": "http://localhost",
-                "X-Title": "BugBounty"
+                "X-Title": "CerberusAI"
             }
         )
         return response.choices[0].message.content
@@ -132,15 +134,24 @@ async def call_gemini(api_key, query):
 
 
 # ---------------------------------------------------------------------
-# FUNÇÕES UTILITÁRIAS
+# EXECUTOR ASYNC SAFE (RENDER + STREAMLIT)
+# ---------------------------------------------------------------------
+def run_async_tasks(coroutines):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    results = loop.run_until_complete(asyncio.gather(*coroutines))
+    loop.close()
+    return results
+
+
+# ---------------------------------------------------------------------
+# UTILITÁRIOS UI
 # ---------------------------------------------------------------------
 def preview_text(text, lines=3):
     if not text:
         return ""
     split = text.splitlines()
-    return "\n".join(split[:lines]) + (
-        "\n..." if len(split) > lines else ""
-    )
+    return "\n".join(split[:lines]) + ("\n..." if len(split) > lines else "")
 
 
 def render_llm_response(text):
@@ -151,7 +162,6 @@ def render_llm_response(text):
             overflow-x: auto;
             white-space: pre-wrap;
             word-break: break-word;
-            overflow-wrap: break-word;
         ">
         {text}
         </div>
@@ -165,64 +175,53 @@ def render_llm_response(text):
 # ---------------------------------------------------------------------
 st.title("Cerberus AI")
 
-query = st.text_area("Alvo / Código:", height=100)
+query = st.text_area("Alvo / Código:", height=120)
 
 if st.button("Iniciar Análise"):
     if not all([groq_key, or_key, gemini_key]):
-        st.error("Insira as três chaves de API na barra lateral.")
+        st.error("Informe todas as chaves de API.")
     else:
         groq_client = AsyncOpenAI(
             api_key=groq_key,
             base_url="https://api.groq.com/openai/v1"
         )
+
         or_client = AsyncOpenAI(
             api_key=or_key,
             base_url="https://openrouter.ai/api/v1"
         )
 
-        col1, col2, col3 = st.columns(3)
-
-        async def run_all():
-            t1 = asyncio.create_task(
+        with st.spinner("Consultando Tribunal..."):
+            r_or, r_groq, r_gem = run_async_tasks([
                 call_openai_style(
                     or_client,
                     "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
                     query
-                )
-            )
-            t2 = asyncio.create_task(
+                ),
                 call_openai_style(
                     groq_client,
                     "llama-3.3-70b-versatile",
                     query
-                )
-            )
-            t3 = asyncio.create_task(
+                ),
                 call_gemini(gemini_key, query)
-            )
+            ])
 
-            return await asyncio.gather(t1, t2, t3)
-
-        with st.spinner("Consultando Tribunal..."):
-            r_or, r_groq, r_gem = asyncio.run(run_all())
+        col1, col2, col3 = st.columns(3)
 
         with col1:
             st.subheader("OpenRouter")
-            st.markdown("Resumo:")
             st.markdown(preview_text(r_or))
-            with st.expander("Ver resposta completa"):
+            with st.expander("Resposta completa"):
                 render_llm_response(r_or)
 
         with col2:
             st.subheader("Groq")
-            st.markdown("Resumo:")
             st.markdown(preview_text(r_groq))
-            with st.expander("Ver resposta completa"):
+            with st.expander("Resposta completa"):
                 render_llm_response(r_groq)
 
         with col3:
             st.subheader("Gemini")
-            st.markdown("Resumo:")
             st.markdown(preview_text(r_gem))
-            with st.expander("Ver resposta completa"):
+            with st.expander("Resposta completa"):
                 render_llm_response(r_gem)
