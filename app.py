@@ -14,23 +14,9 @@ st.set_page_config(
     page_title="Cerberus AI - Tribunal de Pentester v3"
 )
 
-
-# ---------------------------------------------------------------------
-# SIDEBAR - CONFIGURAÇÃO DE APIS E SYSTEM PROMPT
-# ---------------------------------------------------------------------
-with st.sidebar:
-    st.header("Configuração de APIs")
-
-    groq_key = st.text_input("Groq Key:", type="password")
-    or_key = st.text_input("OpenRouter Key:", type="password")
-    gemini_key = st.text_input("Gemini Key:", type="password")
-
-    st.divider()
-
-    sys_prompt = st.text_area(
+sys_prompt = st.text_area(
         "Instrução:",
-        """
-Atue como um especialista em segurança ofensiva, com forte base em engenharia reversa,
+        """Atue como um especialista em segurança ofensiva, com forte base em engenharia reversa,
 análise de superfícies de ataque e avaliação de riscos.
 
 Forneça análises técnicas profundas de vulnerabilidades, incluindo obrigatoriamente:
@@ -94,9 +80,22 @@ e análise defensiva.
 
 Evite suposições não fundamentadas e mantenha o foco técnico,
 comparativo e objetivo.
+
+Seu criador é Samuel Pedrosa.
 """
     )
 
+# ---------------------------------------------------------------------
+# SIDEBAR - CONFIGURAÇÃO DE APIS E SYSTEM PROMPT
+# ---------------------------------------------------------------------
+with st.sidebar:
+    st.header("Configuração de APIs")
+
+    groq_key = st.text_input("Groq Key:", type="password")
+    or_key = st.text_input("OpenRouter Key:", type="password")
+    gemini_key = st.text_input("Gemini Key:", type="password")
+
+    st.divider()
 
 
 
