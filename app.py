@@ -5,14 +5,9 @@ import streamlit as st
 import google.generativeai as genai
 from openai import AsyncOpenAI
 
-
 # ---------------------------------------------------------------------
-# CONFIGURAÇÃO DA PÁGINA
+# PROMPT DE INSTRUÇÃO -  PRÉ CONFIGURAÇÃO
 # ---------------------------------------------------------------------
-st.set_page_config(
-    layout="wide",
-    page_title="Cerberus AI - Tribunal de Pentester v3"
-)
 
 sys_prompt = st.text_area(
         "Instrução:",
@@ -84,6 +79,15 @@ comparativo e objetivo.
 Seu criador é Samuel Pedrosa.
 """
     )
+
+# ---------------------------------------------------------------------
+# CONFIGURAÇÃO DA PÁGINA
+# ---------------------------------------------------------------------
+st.set_page_config(
+    layout="wide",
+    page_title="Cerberus AI - Tribunal de Pentester v3"
+)
+
 
 # ---------------------------------------------------------------------
 # SIDEBAR - CONFIGURAÇÃO DE APIS E SYSTEM PROMPT
