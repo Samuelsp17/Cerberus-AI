@@ -9,9 +9,7 @@ from openai import AsyncOpenAI
 # PROMPT DE INSTRUÇÃO -  PRÉ CONFIGURAÇÃO
 # ---------------------------------------------------------------------
 
-sys_prompt = st.text_area(
-        "Instrução:",
-        """Atue como um especialista em segurança ofensiva, com forte base em engenharia reversa,
+SYSTEM_PROMPT = """Atue como um especialista em segurança ofensiva, com forte base em engenharia reversa,
 análise de superfícies de ataque e avaliação de riscos.
 
 Forneça análises técnicas profundas de vulnerabilidades, incluindo obrigatoriamente:
@@ -111,7 +109,7 @@ async def call_openai_style(client, model, query):
         response = await client.chat.completions.create(
             model=model,
             messages=[
-                {"role": "system", "content": sys_prompt},
+                {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": query}
             ],
             extra_headers={
@@ -129,7 +127,7 @@ async def call_gemini(api_key, query):
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel(
             "gemini-2.5-flash-lite",
-            system_instruction=sys_prompt
+            system_instruction=SYSTEM_PROMPT
         )
         response = await model.generate_content_async(query)
         return response.text
