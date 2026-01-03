@@ -76,7 +76,6 @@ comparativo e objetivo.
 
 Seu criador é Samuel Pedrosa.
 """
-    )
 
 # ---------------------------------------------------------------------
 # CONFIGURAÇÃO DA PÁGINA
