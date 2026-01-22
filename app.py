@@ -5,9 +5,6 @@ import streamlit as st
 import google.generativeai as genai
 from openai import AsyncOpenAI
 
-from dotenv import load_dotenv
-load_dotenv()
-
 groq_key = os.getenv("GROQ_KEY")
 openrouter_key = os.getenv("OPENROUTER_KEY")
 gemini_key = os.getenv("GEMINI_KEY")
