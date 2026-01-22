@@ -5,6 +5,10 @@ import streamlit as st
 import google.generativeai as genai
 from openai import AsyncOpenAI
 
+GROQ_KEY = os.getenv("GROQ_KEY")
+OPENROUTER_KEY = os.getenv("OPENROUTER_KEY")
+GEMINI_KEY = os.getenv("GEMINI_KEY")
+
 # ---------------------------------------------------------------------
 # PROMPT DE INSTRUÇÃO -  PRÉ CONFIGURAÇÃO
 # ---------------------------------------------------------------------
@@ -84,20 +88,6 @@ st.set_page_config(
     layout="wide",
     page_title="Cerberus AI - Tribunal de Pentester v3"
 )
-
-
-# ---------------------------------------------------------------------
-# SIDEBAR - CONFIGURAÇÃO DE APIS E SYSTEM PROMPT
-# ---------------------------------------------------------------------
-with st.sidebar:
-    st.header("Configuração de APIs")
-
-    groq_key = st.text_input("Groq Key:", type="password")
-    or_key = st.text_input("OpenRouter Key:", type="password")
-    gemini_key = st.text_input("Gemini Key:", type="password")
-
-    st.divider()
-
 
 
 # ---------------------------------------------------------------------
