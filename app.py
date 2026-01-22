@@ -173,7 +173,7 @@ st.title("Cerberus AI")
 query = st.text_area("Alvo / Código:", height=120)
 
 if st.button("Iniciar Análise"):
-    if not all([groq_key, openrouter_key, gemini_key]):
+    if not all([groq_key, or_key, gemini_key]):
 
         st.error("Informe todas as chaves de API.")
     else:
