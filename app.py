@@ -5,9 +5,16 @@ import streamlit as st
 import google.generativeai as genai
 from openai import AsyncOpenAI
 
-GROQ_KEY = os.getenv("GROQ_KEY")
-OPENROUTER_KEY = os.getenv("OPENROUTER_KEY")
-GEMINI_KEY = os.getenv("GEMINI_KEY")
+from dotenv import load_dotenv
+load_dotenv()
+
+groq_key = os.getenv("GROQ_KEY")
+openrouter_key = os.getenv("OPENROUTER_KEY")
+gemini_key = os.getenv("GEMINI_KEY")
+
+if not groq_key or not openrouter_key or not gemini_key:
+    st.error("⚠️ Variáveis de ambiente não configuradas corretamente.")
+    st.stop()
 
 # ---------------------------------------------------------------------
 # PROMPT DE INSTRUÇÃO -  PRÉ CONFIGURAÇÃO
@@ -169,7 +176,8 @@ st.title("Cerberus AI")
 query = st.text_area("Alvo / Código:", height=120)
 
 if st.button("Iniciar Análise"):
-    if not all([groq_key, or_key, gemini_key]):
+    if not all([groq_key, openrouter_key, gemini_key]):
+
         st.error("Informe todas as chaves de API.")
     else:
         groq_client = AsyncOpenAI(
