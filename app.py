@@ -6,10 +6,10 @@ import google.generativeai as genai
 from openai import AsyncOpenAI
 
 groq_key = os.getenv("GROQ_KEY")
-openrouter_key = os.getenv("OPENROUTER_KEY")
+or_key = os.getenv("OPENROUTER_KEY")
 gemini_key = os.getenv("GEMINI_KEY")
 
-if not groq_key or not openrouter_key or not gemini_key:
+if not groq_key or not or_key or not gemini_key:
     st.error("⚠️ Variáveis de ambiente não configuradas corretamente.")
     st.stop()
 
