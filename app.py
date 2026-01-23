@@ -121,7 +121,7 @@ async def call_gemini(api_key, query):
     try:
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel(
-            "gemini-2.5-flash-lite",
+            "gemini-2.5-pro",
             system_instruction=SYSTEM_PROMPT
         )
         response = await model.generate_content_async(query)
